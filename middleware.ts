@@ -1,0 +1,42 @@
+import NextAuth from "next-auth";
+
+import {
+    DEFAULT_LOGIN_REDIRECT,
+    apiAuthPrefix,
+    publicRoutes,
+    authRoutes
+} from "@/routes"
+
+import authConfig from "./auth.config";
+
+
+const { auth } = NextAuth(authConfig)
+
+export default auth((req) => {
+    const { nextUrl } = req;
+    const isLoggedIn = !!req.auth;
+
+    const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+    const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+
+    if (isAuthRoute) {
+        return null
+    }
+    if (isApiAuthRoute) {
+        if (isLoggedIn) {
+            return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+        }
+        return null
+    }
+    if (!isLoggedIn && !isPublicRoute) {
+        return Response.redirect(new URL("/auth/sign-in", nextUrl));
+    }
+    return null;
+
+});
+
+export const config = {
+    // copied form clerk
+    matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};
