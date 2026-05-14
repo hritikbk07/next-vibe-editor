@@ -5,6 +5,7 @@ import { db } from "./lib/db"
 import { getUserById } from "./modules/auth/actions";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    session: { strategy: "jwt" },
     callbacks: {
         async signIn({ user, account }) {
             if (!user || !account)
