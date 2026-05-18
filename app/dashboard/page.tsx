@@ -19,6 +19,9 @@ const Page = async () => {
                 ) : (
                     <ProjectTable
                         projects={(playgrounds as any) || []}
+                        onDelteProject={() => { }}
+                        onUpdateProject={() => { }}
+                        onDuplicateProject={() => { }}
                     />
                 )}
             </div>
