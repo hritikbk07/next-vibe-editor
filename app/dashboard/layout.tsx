@@ -7,7 +7,8 @@ export default async function DashboardLayout({
 }: {
     children: React.ReactNode
 }) {
-    const playgroundData = await getAllPlaygroundForUser()
+    const playgroundData = await getAllPlaygroundForUser();
+    //  console.log("playgorundData", playgroundData);
 
     // Store icon names (strings) instead of the components themselves
     const technologyIconMap: Record<string, string> = {
@@ -23,12 +24,10 @@ export default async function DashboardLayout({
         playgroundData?.map((item) => ({
             id: item.id,
             name: item.title,
-            // todo : add star
-            starred: false,
-            //   starred: item.Starmark?.[0]?.isMarked || false,
+            starred: item.Starmark?.[0]?.isMarked || false,
             // Pass the icon name as a string
             icon: technologyIconMap[item.template] || "Code2", // Default to "Code2" if template not found
-        })) || []
+        }))
 
     return (
         <SidebarProvider>
