@@ -7,6 +7,7 @@ import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 import { WebContainer } from "@webcontainer/api";
+import TerminalComponent from "./terminal";
 
 interface WebContainerPreviewProps {
     templateData: TemplateFolder | null;
@@ -327,12 +328,12 @@ const WebContainerPreview: React.FC<WebContainerPreviewProps> = ({
 
                     {/* Terminal */}
                     <div className="flex-1 p-4">
-                        {/* <TerminalComponent 
-              ref={terminalRef}
-              webContainerInstance={instance}
-              theme="dark"
-              className="h-full"
-            /> */}
+                        <TerminalComponent
+                            ref={terminalRef}
+                            webContainerInstance={instance}
+                            theme="dark"
+                            className="h-full"
+                        />
                     </div>
                 </div>
             ) : (
@@ -347,14 +348,14 @@ const WebContainerPreview: React.FC<WebContainerPreviewProps> = ({
                     </div>
 
                     {/* Terminal at bottom when preview is ready */}
-                    {/* <div className="h-64 border-t">
-            <TerminalComponent 
-              ref={terminalRef}
-              webContainerInstance={instance}
-              theme="dark"
-              className="h-full"
-            />
-          </div> */}
+                    <div className="h-64 border-t">
+                        <TerminalComponent
+                            ref={terminalRef}
+                            webContainerInstance={instance}
+                            theme="dark"
+                            className="h-full"
+                        />
+                    </div>
                 </div>
             )}
         </div>

@@ -206,9 +206,9 @@ const MainPlaygroundPage = () => {
                     </Tabs>
 
                   </div>
-                  <div className="flex-1">
-                    <ResizablePanelGroup>
-                      <ResizablePanel>
+                  <div className="flex-1 overflow-hidden">
+                    <ResizablePanelGroup orientation="horizontal">
+                      <ResizablePanel defaultSize={50} minSize={30}>
                         <PlaygroundEditor
                           activeFile={activeFile}
                           content={activeFile?.content || ""}
@@ -218,7 +218,7 @@ const MainPlaygroundPage = () => {
                       {isPreviewVisible && (
                         <>
                           <ResizableHandle />
-                          <ResizablePanel defaultSize={50}>
+                          <ResizablePanel defaultSize={50} minSize={30}>
                             <WebContainerPreview
                               templateData={templateData}
                               instance={instance}
