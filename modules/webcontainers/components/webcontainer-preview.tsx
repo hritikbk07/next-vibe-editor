@@ -182,7 +182,22 @@ const WebContainerPreview: React.FC<WebContainerPreviewProps> = ({
                     terminalRef.current.writeToTerminal("🚀 Starting development server...\r\n");
                 }
 
-                const startProcess = await instance.spawn("npm", ["run", "start"]);
+                // Determine which script to run (dev or start)
+                let startScript = "start";
+                try {
+                    const packageJsonContent = await instance.fs.readFile('package.json', 'utf8');
+                    const packageJson = JSON.parse(packageJsonContent);
+                    if (packageJson.scripts && packageJson.scripts.dev) {
+                        startScript = "dev";
+                        if (terminalRef.current?.writeToTerminal) {
+                            terminalRef.current.writeToTerminal("using 'npm run dev' for development server...\r\n");
+                        }
+                    }
+                } catch (e) {
+                    console.log("Could not read package.json to determine start script, falling back to start", e);
+                }
+
+                const startProcess = await instance.spawn("npm", ["run", startScript]);
 
                 // Listen for server ready event
                 instance.on("server-ready", (port: number, url: string) => {
