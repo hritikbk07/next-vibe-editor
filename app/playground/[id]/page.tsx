@@ -22,10 +22,11 @@ import { useWebContainer } from '@/modules/webcontainers/hooks/useWebContainer';
 import { LoadingStep } from '@/modules/playground/components/loadingStep';
 import { findFilePath } from '@/modules/playground/lib';
 import { toast } from 'sonner';
+import ToggleAI from '@/modules/playground/components/toggle-ai';
 
 const MainPlaygroundPage = () => {
   const { id } = useParams<{ id: string }>();
-  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(true);
 
   const { playgroundData, templateData, isLoading, error, saveTemplateData } = usePlayground(id);
   const {
@@ -372,9 +373,13 @@ const MainPlaygroundPage = () => {
                     Save All (Ctrl+Shift+S)
                   </TooltipContent>
                 </Tooltip>
-                <Button variant={"default"} size={"icon"}>
+                {/* <Button variant={"default"} size={"icon"}>
                   <Bot className='size-4' />
-                </Button>
+                </Button> */}
+                <ToggleAI
+                  isEnabled={false}
+                  onToggle={() => { }}
+                  suggestionLoading={false} />
 
                 <DropdownMenu>
                   <DropdownMenuTrigger render={
