@@ -16,19 +16,23 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import PlaygroundEditor from '@/modules/playground/components/playground-editor';
+import { PlaygroundEditor } from '@/modules/playground/components/playground-editor';
 import WebContainerPreview from '@/modules/webcontainers/components/webcontainer-preview';
 import { useWebContainer } from '@/modules/webcontainers/hooks/useWebContainer';
 import { LoadingStep } from '@/modules/playground/components/loadingStep';
 import { findFilePath } from '@/modules/playground/lib';
 import { toast } from 'sonner';
 import ToggleAI from '@/modules/playground/components/toggle-ai';
+import { useAISuggestions } from '@/modules/playground/hooks/useAISuggestion';
 
 const MainPlaygroundPage = () => {
   const { id } = useParams<{ id: string }>();
   const [isPreviewVisible, setIsPreviewVisible] = useState(true);
 
   const { playgroundData, templateData, isLoading, error, saveTemplateData } = usePlayground(id);
+
+  const aiSuggestions = useAISuggestions();
+
   const {
     setTemplateData,
     setActiveFileId,
@@ -377,9 +381,9 @@ const MainPlaygroundPage = () => {
                   <Bot className='size-4' />
                 </Button> */}
                 <ToggleAI
-                  isEnabled={false}
-                  onToggle={() => { }}
-                  suggestionLoading={false} />
+                  isEnabled={aiSuggestions.isEnabled}
+                  onToggle={aiSuggestions.toggleEnabled}
+                  suggestionLoading={aiSuggestions.isLoading} />
 
                 <DropdownMenu>
                   <DropdownMenuTrigger render={
@@ -466,6 +470,12 @@ const MainPlaygroundPage = () => {
                           onContentChange={(value) =>
                             activeFileId && updateFileContent(activeFileId, value)
                           }
+                          suggestion={aiSuggestions.suggestion}
+                          suggestionLoading={aiSuggestions.isLoading}
+                          suggestionPosition={aiSuggestions.position}
+                          onAcceptSuggestion={(editor, monaco) => aiSuggestions.acceptSuggestion(editor, monaco)}
+                          onRejectSuggestion={(editor) => aiSuggestions.rejectSuggestion(editor)}
+                          onTriggerSuggestion={(type, editor) => aiSuggestions.fetchSuggestion(type, editor)}
                         />
                       </ResizablePanel>
                       {isPreviewVisible && (
