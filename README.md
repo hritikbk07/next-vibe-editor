@@ -1,4 +1,4 @@
-# 🧠 Vibecode Editor – AI-Powered Web IDE
+# 🧠 Vibe-editor – AI-Powered Web IDE
 
 ![Vibecode Editor Thumbnail](public/vibe-code-editor-thumbnail.svg)
 
@@ -42,8 +42,8 @@
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/your-username/vibecode-editor.git
-cd vibecode-editor
+git clone https://github.com/your-username/next-vibe-editor.git
+cd next-vibe-editor
 ````
 
 ### 2. Install Dependencies
